@@ -8,7 +8,6 @@ class DBPushInfo(QWidget):
         super().__init__()
 
         self.res = []
-
         self.table = QTableWidget(self)
         self.pbtn = QPushButton("Удалить", self)
 
@@ -72,7 +71,6 @@ class DBTgInfo(QWidget):
         super().__init__()
 
         self.res = []
-
         self.table = QTableWidget(self)
         self.pbtn = QPushButton("Удалить", self)
 
