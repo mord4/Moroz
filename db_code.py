@@ -2,15 +2,12 @@ import sqlite3
 
 
 def get_data(table, d):
-    try:
-        f = "notifications.db"
-        conn = sqlite3.connect(f)
-        query = f"SELECT * FROM {table} WHERE date <= '{d}'"
-        r = conn.cursor().execute(query).fetchall()
-        conn.close()
-        return r
-    except ():
-        return "Error"
+    f = "notifications.db"
+    conn = sqlite3.connect(f)
+    query = f"SELECT * FROM {table} WHERE date <= '{d}'"
+    r = conn.cursor().execute(query).fetchall()
+    conn.close()
+    return r
 
 
 def delete_data(table, res):

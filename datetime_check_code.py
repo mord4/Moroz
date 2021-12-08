@@ -19,9 +19,6 @@ def date_check():
     a = []
     for table in ("tg_message", "push_notif"):
         r = get_data(table, d)
-        if r == "Error":
-            a = r
-            break
         a.append(r)
     return a
 
@@ -49,7 +46,7 @@ def time_check():
                 print("++++")
             else:
                 mess(id_chat, message)
-            if len(file) > 0:
+            if not(file is None):
                 photo(id_chat, file)
             delete_data("tg_message", i)
             using1.append(i)
@@ -79,6 +76,6 @@ try:
         print(res1)
         print(res2)
         time_check()
-        time.sleep(20)
+        time.sleep(5)
 except():
-    print("Error")
+    print("Ошибка, проверьте входные данные и работоспособность кода.")

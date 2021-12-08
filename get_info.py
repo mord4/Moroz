@@ -10,6 +10,8 @@ class DBPushInfo(QWidget):
         self.res = []
         self.table = QTableWidget(self)
         self.pbtn = QPushButton("Удалить", self)
+        self.docy = QLabel("Чтобы удалить\nуведомление\nвыберете\nлюбой элемент таблтцы,\n"
+                           "просто нажав\nна него,\nи нажмите\nкнопку\nудалить.", self)
 
         self.initUI()
 
@@ -53,8 +55,11 @@ class DBPushInfo(QWidget):
         self.table.cellClicked.connect(self.cell_was_clicked)
 
         self.pbtn.resize(80, 30)
-        self.pbtn.move(450, 200)
+        self.pbtn.move(540, 20)
         self.pbtn.clicked.connect(self.deleter)
+
+        self.docy.resize(80, 150)
+        self.docy.move(540, 60)
 
     def cell_was_clicked(self, row):
         self.res = [self.table.item(row, i).text() for i in range(4)]
@@ -73,6 +78,8 @@ class DBTgInfo(QWidget):
         self.res = []
         self.table = QTableWidget(self)
         self.pbtn = QPushButton("Удалить", self)
+        self.docy = QLabel("Чтобы удалить\nуведомление\nвыберете\nлюбой элемент таблтцы,\n"
+                           "просто нажав\nна него,\nи нажмите\nкнопку\nудалить.", self)
 
         self.initUI()
 
@@ -117,12 +124,14 @@ class DBTgInfo(QWidget):
         self.table.cellClicked.connect(self.cell_was_clicked)
 
         self.pbtn.resize(80, 30)
-        self.pbtn.move(450, 135)
+        self.pbtn.move(540, 20)
         self.pbtn.clicked.connect(self.deleter)
+
+        self.docy.resize(80, 150)
+        self.docy.move(540, 60)
 
     def cell_was_clicked(self, row):
         self.res = [self.table.item(row, i).text() for i in range(5)]
-        print(self.res)
 
     def deleter(self):
         if self.res:

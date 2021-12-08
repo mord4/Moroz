@@ -23,13 +23,15 @@ class Moroz(QWidget):
         self.time_1_2 = QTimeEdit(self.label_page_1)
         self.text_edit_1_1 = QLineEdit(self.label_page_1)
         self.text_edit_1_2 = QTextEdit(self.label_page_1)
-        self.pbtn_1_1 = QPushButton("Создать", self.label_page_1)
-        self.pbtn_1_2 = QPushButton("Посмотреть созданные уведомления", self.label_page_1)
+        if sys.platform == "win32":
+            self.pbtn_1_1 = QPushButton("Создать", self.label_page_1)
+            self.pbtn_1_2 = QPushButton("Посмотреть созданные уведомления", self.label_page_1)
+        else:
+            label_maker(self.label_page_1, "Ваша ОС не подходит для работы данной опции", 250, 350, 300, 20)
         label_maker(self.label_page_1, "Дата:", 20, 20, 60, 20)
         label_maker(self.label_page_1, "Время:", 20, 50, 60, 20)
         label_maker(self.label_page_1, "Заголовок:", 20, 80, 80, 20)
         label_maker(self.label_page_1, "Текст уведомления:", 20, 140, 140, 30)
-
         self.label_page_2 = QLabel()
         self.tab.addTab(self.label_page_2, "Сообщение TG")
         self.date_2_1 = QDateEdit(self.label_page_2)
