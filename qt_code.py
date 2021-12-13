@@ -68,14 +68,16 @@ class Moroz(QWidget):
 
         self.text_edit_1_2.setGeometry(QtCore.QRect(20, 170, 735, 170))
         self.text_edit_1_2.setText("...")
+        if sys.platform == "win32":
+            self.pbtn_1_1.resize(80, 30)
+            self.pbtn_1_1.move(675, 350)
+            self.pbtn_1_1.clicked.connect(self.test_1)
 
-        self.pbtn_1_1.resize(80, 30)
-        self.pbtn_1_1.move(675, 350)
-        self.pbtn_1_1.clicked.connect(self.test_1)
-
-        self.pbtn_1_2.resize(200, 30)
-        self.pbtn_1_2.move(20, 400)
-        self.pbtn_1_2.clicked.connect(self.open_push_db)
+            self.pbtn_1_2.resize(200, 30)
+            self.pbtn_1_2.move(20, 400)
+            self.pbtn_1_2.clicked.connect(self.open_push_db)
+        else:
+            label_maker(self.label_page_1, "Ваша ОС не подходит для работы данной опции", 250, 350, 300, 20)
         # ==============================================================================================================
         self.date_2_1.setGeometry(QtCore.QRect(80, 20, 100, 20))
         self.date_2_1.setMinimumDate(QtCore.QDate.currentDate())
