@@ -24,3 +24,4 @@ def delete_data(table, res):
     print(query)
     conn.execute(query)
     conn.commit()
+
