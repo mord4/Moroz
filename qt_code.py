@@ -37,7 +37,7 @@ class Moroz(QWidget):
         self.date_2_1 = QDateEdit(self.label_page_2)
         self.time_2_1 = QTimeEdit(self.label_page_2)
         self.text_edit_2_1 = QTextEdit(self.label_page_2)
-        self.text_edit_2_2 = QLineEdit(self.label_page_2)
+        self.text_edit_2_2 = QTextEdit(self.label_page_2)
         self.pbtn_2_1 = QPushButton("Создать", self.label_page_2)
         self.pbtn_2_2 = QPushButton("Выбор фото:", self.label_page_2)
         self.text_edit_2_3 = QLineEdit(self.label_page_2)
@@ -47,7 +47,7 @@ class Moroz(QWidget):
         label_maker(self.label_page_2, "Текст:", 20, 110, 60, 20)
         label_maker(self.label_page_2, "Ник: Moroz", 200, 20, 200, 20)
         label_maker(self.label_page_2, "Имя бота: @morozoribot", 200, 50, 200, 20)
-        label_maker(self.label_page_2, "Введите ID:", 20, 80, 200, 20)
+        label_maker(self.label_page_2, "Введите ID:", 20, 80, 100, 20)
 
         self.initUI()
 
@@ -88,7 +88,7 @@ class Moroz(QWidget):
         self.text_edit_2_1.setGeometry(QtCore.QRect(20, 140, 735, 200))
         self.text_edit_2_1.setText("...")
 
-        self.text_edit_2_2.setGeometry(QtCore.QRect(105, 75, 75, 25))
+        self.text_edit_2_2.setGeometry(QtCore.QRect(105, 80, 70, 25))
         self.text_edit_2_2.setText("")
 
         self.pbtn_2_1.resize(80, 30)
@@ -100,6 +100,7 @@ class Moroz(QWidget):
         self.pbtn_2_2.clicked.connect(self.overview)
 
         self.text_edit_2_3.setGeometry(QtCore.QRect(120, 350, 100, 30))
+        self.text_edit_2_3.setReadOnly(True)
 
         self.pbtn_2_3.resize(200, 30)
         self.pbtn_2_3.move(20, 400)
@@ -120,14 +121,21 @@ class Moroz(QWidget):
 
     def test(self):
         print(self.wtf)
-        question = QtWidgets.QMessageBox.question(self, 'Moroz имеет вопрос',
-                                                  "Создать уведомление?", QtWidgets.QMessageBox.Yes,
-                                                  QtWidgets.QMessageBox.No)
-        if question == QtWidgets.QMessageBox.Yes:
-            if self.wtf == 1:
-                self.click_btn_1_1()
-            elif self.wtf == 2:
-                self.click_btn_2_1()
+        flag1 = True
+        if self.wtf == 2:
+            id_chat = str(self.text_edit_2_2.toPlainText())
+            if not(len(id_chat) == 10 and id_chat.isdigit()):
+                self.text_edit_2_2.setText("Плохой ID")
+                flag1 = False
+        if flag1:
+            question = QtWidgets.QMessageBox.question(self, 'Moroz имеет вопрос',
+                                                      "Создать уведомление?", QtWidgets.QMessageBox.Yes,
+                                                      QtWidgets.QMessageBox.No)
+            if question == QtWidgets.QMessageBox.Yes:
+                if self.wtf == 1:
+                    self.click_btn_1_1()
+                elif self.wtf == 2:
+                    self.click_btn_2_1()
 
     def click_btn_1_1(self):
         dt = self.date_1_1.date().getDate()
@@ -143,10 +151,9 @@ class Moroz(QWidget):
     def click_btn_2_1(self):
         dt = self.date_2_1.date().getDate()
         tm = self.time_2_1.time().toString()
+        id_chat = self.text_edit_2_2.toPlainText()
         txt = self.text_edit_2_1.toPlainText()
-        id_chat = self.text_edit_2_2.text()
         file = self.text_edit_2_3.text()
-
         conn = sqlite3.connect('notifications.db')
         cursor = conn.cursor()
         cursor.execute(f"INSERT INTO tg_message(date, time, message, chat_id, file)"

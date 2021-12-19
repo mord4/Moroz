@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import *
 from db_code import delete_data
-import sqlite3, sys
+import sqlite3
 
 
 class DBPushInfo(QWidget):
@@ -63,23 +63,25 @@ class DBPushInfo(QWidget):
 
     def cell_was_clicked(self, row):
         self.res = [self.table.item(row, i).text() for i in range(4)]
-        print(self.res)
 
     def deleter(self):
         if self.res:
+            DBPushInfo().close()
             delete_data("push_notif", self.res)
             self.res = []
+            self.push_info()
+            DBPushInfo().show()
 
 
 class DBTgInfo(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.res = []
+        self.r = []
         self.table = QTableWidget(self)
-        self.pbtn = QPushButton("Удалить", self)
-        self.docy = QLabel("Чтобы удалить\nуведомление\nвыберете\nлюбой элемент таблтцы,\n"
-                           "просто нажав\nна него,\nи нажмите\nкнопку\nудалить.", self)
+        # self.pbtn = QPushButton("Удалить", self)
+        # self.docy = QLabel("Чтобы удалить\nуведомление\nвыберете\nлюбой элемент таблтцы,\n"
+        #                    "просто нажав\nна него,\nи нажмите\nкнопку\nудалить.", self)
 
         self.initUI()
 
@@ -93,14 +95,14 @@ class DBTgInfo(QWidget):
         query = """
             select * from tg_message
         """
-        res = connection.cursor().execute(query).fetchall()
+        result = connection.cursor().execute(query).fetchall()
         connection.close()
 
         grid_layout = QGridLayout()
         self.setLayout(grid_layout)
 
         self.table.setColumnCount(5)
-        self.table.setRowCount(len(res))
+        self.table.setRowCount(len(result))
 
         self.table.setHorizontalHeaderLabels(["Дата", "Время", "Сообщение", "ID", "Путь к фото"])
 
@@ -109,31 +111,39 @@ class DBTgInfo(QWidget):
         self.table.horizontalHeaderItem(2).setToolTip("Column 3 ")
         self.table.horizontalHeaderItem(3).setToolTip("Column 4 ")
         self.table.horizontalHeaderItem(4).setToolTip("Column 5 ")
+        print(result)
+        for i in range(len(result)):
+            print(result[i])
 
-        for i in range(len(res)):
-            self.table.setItem(i, 0, QTableWidgetItem(res[i][0]))
-            self.table.setItem(i, 1, QTableWidgetItem(res[i][1]))
-            self.table.setItem(i, 2, QTableWidgetItem(res[i][2]))
-            self.table.setItem(i, 3, QTableWidgetItem(res[i][3]))
-            self.table.setItem(i, 4, QTableWidgetItem(res[i][4]))
+            self.table.setItem(i, 0, QTableWidgetItem(result[i][0]))
+            self.table.setItem(i, 1, QTableWidgetItem(result[i][1]))
+            self.table.setItem(i, 2, QTableWidgetItem(result[i][2]))
+            self.table.setItem(i, 3, QTableWidgetItem(result[i][3]))
+            self.table.setItem(i, 4, QTableWidgetItem(result[i][4]))
 
         self.table.resizeRowsToContents()
 
         grid_layout.addWidget(self.table)
 
-        self.table.cellClicked.connect(self.cell_was_clicked)
+        # self.table.cellClicked.connect(self.cell_was_clicked)
 
-        self.pbtn.resize(80, 30)
-        self.pbtn.move(540, 20)
-        self.pbtn.clicked.connect(self.deleter)
+        # self.pbtn.resize(80, 30)
+        # self.pbtn.move(540, 20)
+        # self.pbtn.clicked.connect(self.deleter)
+        #
+        # self.docy.resize(80, 150)
+        # self.docy.move(540, 60)
 
-        self.docy.resize(80, 150)
-        self.docy.move(540, 60)
+    # def cell_was_clicked(self, row):
+    #     self.res = [self.table.item(row, i).text() for i in range(5)]
+    #     print(self.res)
+    #
+    # def deleter(self):
+    #     if self.res:
+    #         print(self.res)
+    #         print()
+    #         DBTgInfo().close()
+    #         delete_data("tg_message", self.res)
+    #         self.tg_info()
+    #         DBTgInfo().show()
 
-    def cell_was_clicked(self, row):
-        self.res = [self.table.item(row, i).text() for i in range(5)]
-
-    def deleter(self):
-        if self.res:
-            delete_data("tg_message", self.res)
-            self.res = []

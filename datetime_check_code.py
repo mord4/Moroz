@@ -40,14 +40,15 @@ def time_check():
             message = str(i[2])
             id_chat = i[3]
             file = i[4]
-            if id_chat == "":
+            if len(str(id_chat)) != 10:
                 print("++++")
                 print("ID не заполнен.\n", i, "\nДанное сообщение не может быть отправлено.")
                 print("++++")
+                delete_data("tg_message", i)
             else:
                 mess(id_chat, message)
-            if not(file is None):
-                photo(id_chat, file)
+                if not(file is None):
+                    photo(id_chat, file)
             delete_data("tg_message", i)
             using1.append(i)
     using2 = []
